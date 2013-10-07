@@ -22,8 +22,10 @@ previousArtifact := Some("org.scalacheck" % "scalacheck_2.10" % "1.10.0")
 libraryDependencies += "org.scala-tools.testing" %  "test-interface" % "0.5"
 
 libraryDependencies <++= (scalaVersion){sVer =>
-  if(sVer startsWith "2.9") Seq.empty
-  else Seq("org.scala-lang" % "scala-actors" % sVer)
+  (if(sVer startsWith "2.9") Seq.empty
+  else Seq("org.scala-lang" % "scala-actors" % sVer)) ++
+  (if(sVer startsWith "2.11") Seq("org.scala-lang.modules" % "scala-parser-combinators" % sVer)
+  else Seq.empty)
 }
 
 javacOptions ++= Seq("-Xmx1024M")
